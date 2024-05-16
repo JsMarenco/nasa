@@ -31,7 +31,7 @@ const NextUIProviderWrapper = ({
 }): JSX.Element => {
   return (
     <NextUIProvider>
-      <NextThemesProvider attribute="class" defaultTheme="light">
+      <NextThemesProvider attribute="class" defaultTheme="dark">
         {children}
       </NextThemesProvider>
     </NextUIProvider>
