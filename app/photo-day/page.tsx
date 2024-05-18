@@ -5,20 +5,21 @@ import { JSX, useState, useEffect } from "react"
 // Third-party dependencies
 import { Image, Button } from "@nextui-org/react"
 import { FiCopy } from "react-icons/fi"
+import axios from "axios"
 
 // Current project dependencies
 import Header from "../components/Header"
 
 const example = {
-  copyright: "Sebastian Voltmer",
-  date: "2024-05-15",
+  copyright: "Jerry Lodriguss",
+  date: "2002-05-26",
   explanation:
-    "What did the monster active region that created the recent auroras look like when at the Sun's edge? There, AR 3664 better showed its 3D structure. Pictured, a large multi-pronged solar prominence was captured extending from chaotic sunspot region AR 3664 out into space, just one example of the particle clouds ejected from this violent solar region. The Earth could easily fit under this long-extended prominence.  The featured image was captured two days ago from this constantly changing region. Yesterday, the strongest solar flare in years was expelled (not shown), a blast classified in the upper X-class. Ultraviolet light from that flare quickly hit the Earth's atmosphere and caused shortwave radio blackouts across both North and South America. Although now rotated to be facing slightly away from the Earth, particles from AR 3664 and subsequent coronal mass ejections (CMEs) might still follow curved magnetic field lines across the inner Solar System and create more Earthly auroras.    Gallery: Earth Aurora from Solar Active Region 6443",
-  hdurl: "https://apod.nasa.gov/apod/image/2405/AR3664Prom_Voltmer_1728.jpg",
+    "The dark nebula predominant at the lower left of the above photograph is known as the Pipe Nebula.  The dark clouds, suggestively shaped like smoke rising from a pipe, are caused by absorption of background starlight by dust.  These dust clouds can be traced all the way to the Rho Ophiuchi nebular clouds on the right.  The brightest star in the field is Antares. Many types of nebula are highlighted here: the red are emission nebula, the blue are reflection nebula, and the dark are absorption nebula. This picture has been digitally enhanced.",
+  hdurl: "https://apod.nasa.gov/apod/image/0003/pipe2_lodriguss_big.jpg",
   media_type: "image",
   service_version: "v1",
-  title: "AR 3664 at the Sun's Edge",
-  url: "https://apod.nasa.gov/apod/image/2405/AR3664Prom_Voltmer_960.jpg",
+  title: "The Pipe Dark Nebula",
+  url: "https://apod.nasa.gov/apod/image/0003/pipe2_lodriguss.jpg",
 }
 
 /**
@@ -28,8 +29,7 @@ const example = {
  * @returns {JSX.Element}
  */
 const PhotoDay = (): JSX.Element => {
-  const [photoDay] = useState(example)
-  const [, setDateParam] = useState<string>("")
+  const [photoDay, setPhotoDay] = useState(example)
 
   const copyUrlWithDate = () => {
     const urlWithDate = `${window.location.href}?date=${photoDay.date}`
@@ -42,21 +42,42 @@ const PhotoDay = (): JSX.Element => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const dateParam = params.get("date") || ""
-    setDateParam(dateParam)
+
+    axios
+      .get(`/api/photo-day?date=${dateParam}`)
+      .then((response) => {
+        setPhotoDay(response.data.photoOfTheDay)
+      })
+      .catch((error) => {
+        console.error("Error al obtener la foto del día:", error)
+      })
   }, [])
 
   return (
     <>
       <Header />
 
-      <div className="w-full p-5 flex justify-center h-auto my-10">
+      <div className="w-full p-5 flex justify-center h-auto my-5 md:my-10">
         <Image
           isBlurred
           src={photoDay.hdurl}
           alt={photoDay.title ? photoDay.title : "Photo of day"}
-          className="max-w-[700px] w-full"
+          className="max-w-[1080px] w-full"
         />
       </div>
+
+      {photoDay.title && (
+        <h6 className="text-center text-sm font-light">
+          {
+            // Convert the date to human date
+            new Date(photoDay.date).toLocaleDateString("es-ES", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })
+          }
+        </h6>
+      )}
 
       {photoDay.title && (
         <h2 className="text-center mt-5 font-bold">{photoDay.title}</h2>
@@ -64,7 +85,7 @@ const PhotoDay = (): JSX.Element => {
 
       {photoDay.explanation && (
         <div className="max-w-6xl mx-auto w-full">
-          <p className="text-center text-small mt-5 mx-20 font-normal">
+          <p className="text-center text-small mt-5 mx-5 lg-mx-20 font-normal">
             {photoDay.explanation}
           </p>
         </div>

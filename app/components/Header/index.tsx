@@ -22,22 +22,18 @@ import ThemeSwitcher from "../ThemeSwitcher"
 const Header = (): JSX.Element => {
   return (
     <Navbar isBordered maxWidth="2xl">
-      <NavbarBrand>
+      <NavbarBrand className="hidden md:flex gap-4">
         <p className="font-bold text-inherit">JsMarenco</p>
       </NavbarBrand>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className="flex gap-4" justify="center">
         <NavbarItem>
           <Link href="/photo-day/">Photo day</Link>
-        </NavbarItem>
-
-        <NavbarItem>
-          <Link href="/photo-by-date">Photo by date</Link>
         </NavbarItem>
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
+        <NavbarItem className="flex">
           <ThemeSwitcher />
         </NavbarItem>
       </NavbarContent>
