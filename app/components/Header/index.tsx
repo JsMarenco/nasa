@@ -23,7 +23,9 @@ const Header = (): JSX.Element => {
   return (
     <Navbar isBordered maxWidth="2xl">
       <NavbarBrand className="hidden md:flex gap-4">
-        <p className="font-bold text-inherit">JsMarenco</p>
+        <Link className="font-bold text-inherit" href="/">
+          JsMarenco
+        </Link>
       </NavbarBrand>
 
       <NavbarContent className="flex gap-4" justify="center">
