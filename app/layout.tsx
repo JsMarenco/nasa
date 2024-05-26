@@ -30,12 +30,12 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "NASA Image of the Day",
     url: "",
-    images: ["/assets/screens/home.png"],
+    images: ["/static/assets/screens/home.png"],
   },
   manifest: "/static/manifest.json",
   icons: {
-    icon: "/static/icons/icon-192x192.png",
-    apple: "/static/icons/icon-192x192.png",
+    icon: "/static/assets/icons/icon-192x192.png",
+    apple: "/static/assets/icons/icon-192x192.png",
   },
 }
 
